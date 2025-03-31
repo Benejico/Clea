@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grille d'icônes de table</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(10, 50px);
+            grid-template-rows: repeat(10, 50px);
+            gap: 10px;
+        }
+        .table-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .table-icon.red {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- Génération de 100 icônes de table -->
+        <script>
+            const gridContainer = document.querySelector('.grid-container');
+
+            // Charger l'état des tables depuis le localStorage
+            const tableStates = JSON.parse(localStorage.getItem('tableStates')) || {};
+
+            for (let i = 0; i < 100; i++) {
+                const icon = document.createElement('div');
+                icon.classList.add('table-icon');
+                icon.innerText = '🍽️'; // Utilisation d'un emoji pour représenter une table
+
+                // Appliquer l'état sauvegardé
+                if (tableStates[i]) {
+                    icon.classList.add('red');
+                }
+
+                icon.addEventListener('click', () => {
+                    icon.classList.toggle('red');
+                    // Mettre à jour l'état dans le localStorage
+                    tableStates[i] = icon.classList.contains('red');
+                    localStorage.setItem('tableStates', JSON.stringify(tableStates));
+                });
+
+                gridContainer.appendChild(icon);
+            }
+        </script>
+    </div>
+</body>
+</html>
